@@ -92,11 +92,13 @@ function today() {
     creatCalender(currentMonth, currentYear);
 }
 
-function updateCell(){
+function updateCell(){modal.style.display = "block";
 	var line = document.createElement("p");
 	var d = new Date (selectYear.value, selectMonth.value, this.innerHTML).getDay();	
 	line.innerHTML = days[d] + " " + months[selectMonth.value] + " " + this.innerHTML +", "+ selectYear.value;
-	upcoming.appendChild(line);
+	var message = days[d] + " " + months[selectMonth.value] + " " + this.innerHTML +", "+ selectYear.value;
+	//upcoming.appendChild(line);
+	document.getElementById("date").value=message;
 }
 
 function daysInMonth(iMonth, iYear) {
