@@ -113,3 +113,34 @@ html, body {
 	margin: 0;
     text-align: center;
 }
+.bubble ul{list-style:none; 
+  height: 0px; overflow: hidden;
+  transition: height 0.5s;
+  margin:0; padding:0;
+  width: 100px;
+  background:blue;
+ 
+}
+
+.bubble ul li{
+  text-align:center;
+  padding:5px 0;
+  margin:2px 0;
+  width: 100px;
+  background:white;
+}
+
+.bubble:hover ul{
+height:100px;
+}
+
+.today {
+  height:50px;
+  width:50px;
+  background: skyblue;
+  line-height: 50px;
+  border: 0.5 solid grey;
+  text-align: center;
+  box-sizing: border-box;
+  position:relative;
+}
