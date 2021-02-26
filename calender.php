@@ -6,7 +6,46 @@
   <title>Calender</title>
   <link rel="stylesheet" href="calender.css">
   <link rel="stylesheet" href="modal.css">
-  
+  <?php 
+	if (isset($_POST["submit"])){
+		$_date = $_REQUEST["date"];
+		$message = $_REQUEST["details"];
+		$conn = mysqli_connect("localhost","francis","rDY6JcAcmyCOEsJQ","my_database");
+		$sql = "INSERT INTO `reminder` (`id`,`date`, `message`, `Task_time`) VALUES (NULL,'".$_date."', '".$message."', NULL)";
+		// Check connection
+		if (!$conn) {
+		  die("Connection failed: " . mysqli_connect_error());
+		}
+		//echo "Connected successfully";
+		
+		if (mysqli_query($conn, $sql)) {
+		  echo "Insert successful";
+		} else {
+		  echo "Error inserting data: " . mysqli_error($conn);
+		}
+		mysqli_close($conn);
+    }
+	
+	$conn = mysqli_connect("localhost","francis","rDY6JcAcmyCOEsJQ","my_database");
+	$sql = "SELECT * FROM reminder";
+	$query = mysqli_query($conn, $sql);
+	if ($query) {
+		//echo "Select successful";
+		$i = 0;
+		echo "<script>";
+		echo "var items = new Array();\n";
+		
+		while ($row = mysqli_fetch_array($query, MYSQLI_BOTH)){
+			echo "items[".$i."]=[".$row["id"].",\"".$row["date"]."\",\"".$row["message"]."\"];\n";
+			$i++;
+		}
+		echo "</script>";
+		mysqli_close($conn); 
+		} else {
+		  echo "Error selecting data: " . mysqli_error($conn);
+		}
+	
+?>
 </head>
 <body>
 	<div>
@@ -101,6 +140,9 @@
 				
 			</div>
 			<div class="upcomming" id="uc">
+				<h4 id="display-h4">Selected item details</h4>
+				<div id="display-div" class="display-div">
+				</div>
 			</div>
 		</div>
 	</section>
@@ -110,10 +152,11 @@
   <!-- Modal content -->
 	<div class="modal-content">
 		<button class="close" id="close">&times;</button>
-		<form action="action.php" method="post" target="_self">	
+		<h3 id="form-h3"></h3>
+		<form action="calender.php" method="post">	
 			<input type="hidden" name="date" id="date" value="">
 
-			<label for="details">Enter details:</label><br>
+			<label for="details" >Enter details:</label><br>
 			<textarea id="details" name="details" rows="10" cols="50" >  </textarea><br>
 			<input type="submit" id="submit" name="submit" value="Save">
 		</form>
