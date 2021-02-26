@@ -134,13 +134,3 @@ html, body {
 height:100px;
 }
 
-.today {
-  height:50px;
-  width:50px;
-  background: skyblue;
-  line-height: 50px;
-  border: 0.5 solid grey;
-  text-align: center;
-  box-sizing: border-box;
-  position:relative;
-}
