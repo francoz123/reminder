@@ -127,6 +127,8 @@ html, body {
   border-radius:5px 5px;
   position:absolute;
   top:10px;
+  max-height: 150px;
+  overflow: auto;
 }
 .bubble:hover {
 	z-index:32;
@@ -138,7 +140,8 @@ html, body {
   margin-bottom:2px;
   width: 100px;
   background:white;
-  	
+  max-height: 10px;
+  overflow: hidden;
 }
 
 .bubble:hover > ul{
@@ -168,7 +171,7 @@ h4 {
 .display-div {
 	width:80%;
 	height:100px;
-	overflow:;
+	overflow:auto;
 	margin: 2px auto;
 	padding:5px 10px;
 	background: white;
