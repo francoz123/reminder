@@ -43,26 +43,74 @@ for (var i=0;i<7;i++){
   cal.appendChild(cell);
 }
 
+var colNum = 0;
 for (var i=0;i<firstDay;i++){
   cell = document.createElement("div");
   cell.classList.add("cal-div");
-  cellText = document.createTextNode(" ");
+  cellText = document.createTextNode(" ");  
   cell.appendChild(cellText);
   cal.appendChild(cell);
+  colNum++;
+  
 }
+//var z = 31;
 
 for (var i=1;i<= daysInMonth(month, year);i++){
-  cell = document.createElement("div");
+ var cell = document.createElement("div");
+ var cellSpan = document.createElement("span");
+ var bubble = document.createElement("div");
+ var bubbleSpan = document.createElement("span");
+ var iul= document.createElement("ul");
+ bubble.classList.add("bubble");
+ cellSpan.classList.add("cellSpan");
+ bubbleSpan.classList.add("bubbleSpan");
+ //bubble.appendChild(cellT);
+    //bubble.appendChild(iul);
+    //cell.appendChild(bubble);
+  //iul.appendChild(ili);
+  //iul.appendChild(ili2);
   if (i===date && year === thisYear && thisMonth === month){
-    cell.classList.add("today");
+    cell.classList.add("today");    
    }
    else{
      cell.classList.add("cal-div");
-   }
-  cell.addEventListener("click", updateCell);
+   } 
+  //cell.style.zIndex = z;
+  cellSpan.addEventListener("click", updateCell);
   cellText = document.createTextNode(i);
-  cell.appendChild(cellText);
+  cellSpan.appendChild(cellText);
+  cell.appendChild(cellSpan);
+	if (items){
+		var bubbleText = 0;		
+		for (var j=0;j<items.length;j++){
+			var d = new Date(items[j][1]);
+			if (i===d.getDate() && year ===d.getFullYear()  && d.getMonth() === month){
+				bubbleText++;  
+				var ili= document.createElement("li");
+				ili.innerHTML=items[j][2];
+				ili.setAttribute("id", items[j][1]);
+				ili.addEventListener("click", updateDisplay);
+				iul.appendChild(ili);
+				if (colNum > 4){console.log(colNum);
+					iul.classList.add("ul-left");
+					
+				}
+		
+			}
+		}
+		if (bubbleText>0){
+		var cellT = document.createTextNode(bubbleText);
+		bubbleSpan.appendChild(cellT);
+		bubble.appendChild(bubbleSpan);
+		bubble.appendChild(iul);
+		cell.appendChild(bubble);}
+	}
   cal.appendChild(cell);
+  //z--;
+  colNum++;
+  if (colNum>6){
+		colNum=0;
+	}
 }
 }
 creatCalender(thisMonth, thisYear);
@@ -92,13 +140,21 @@ function today() {
     creatCalender(currentMonth, currentYear);
 }
 
-function updateCell(){
+function updateCell(){modal.style.display = "block";
 	var line = document.createElement("p");
 	var d = new Date (selectYear.value, selectMonth.value, this.innerHTML).getDay();	
 	line.innerHTML = days[d] + " " + months[selectMonth.value] + " " + this.innerHTML +", "+ selectYear.value;
+	var message = days[d] + " " + months[selectMonth.value] + " " + this.innerHTML +", "+ selectYear.value;
+	document.getElementById("form-h3").innerHTML=message;
 	upcoming.appendChild(line);
+	document.getElementById("date").value=message;
 }
 
 function daysInMonth(iMonth, iYear) {
     return 32 - new Date(iYear, iMonth, 32).getDate();
+}
+
+function updateDisplay(){
+	document.getElementById("display-h4").innerHTML = this.getAttribute("id");
+	document.getElementById("display-div").innerHTML = this.innerHTML;
 }
