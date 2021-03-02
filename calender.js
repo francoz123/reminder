@@ -87,9 +87,20 @@ for (var i=1;i<= daysInMonth(month, year);i++){
 			if (i===d.getDate() && year ===d.getFullYear()  && d.getMonth() === month){
 				bubbleText++;  
 				var ili= document.createElement("li");
-				ili.innerHTML=items[j][2];
-				ili.setAttribute("id", items[j][1]);
-				ili.addEventListener("click", updateDisplay);
+				var icon = document.createElement("i");
+				var dLink = document.createElement("a");
+				var liSpan = document.createElement("span");
+				liSpan.classList.add("lispan");
+				dLink.setAttribute("href", "calender.php?id="+items[j][0]+"&y="+currentYear+"&m="+currentMonth+"");
+				icon.setAttribute("class", "fa fa-trash");
+				dLink.setAttribute("title", "Delete");
+				dLink.appendChild(icon);
+				//icon.innerHTML = "delete";
+				liSpan.innerHTML=items[j][2];
+				liSpan.setAttribute("id", items[j][1]);
+				liSpan.addEventListener("click", updateDisplay);
+				ili.appendChild(liSpan);
+				ili.appendChild(dLink);
 				iul.appendChild(ili);
 				if (colNum > 4){console.log(colNum);
 					iul.classList.add("ul-left");

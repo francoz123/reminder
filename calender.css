@@ -114,6 +114,7 @@ html, body {
   width:5px;
   z-index:1;
   vertical-align:middle;
+  color:white;
 }
 
 .bubble ul{list-style:none; 
@@ -123,12 +124,14 @@ html, body {
   width: 100px;
   background:;
   z-index:1;
+  font-size:12px;
   font-weight:bold;
   border-radius:5px 5px;
   position:absolute;
   top:10px;
   max-height: 150px;
   overflow: auto;
+  color:black;
 }
 .bubble:hover {
 	z-index:32;
@@ -140,8 +143,9 @@ html, body {
   margin-bottom:2px;
   width: 100px;
   background:white;
-  max-height: 10px;
+  max-height: 15px;
   overflow: hidden;
+  cursor:pointer;
 }
 
 .bubble:hover > ul{
@@ -176,4 +180,11 @@ h4 {
 	padding:5px 10px;
 	background: white;
 	border-radius: 10px;
+}
+.lispan {
+	display:inline-block;
+	height:100%;
+	width:90px;
+	background:;
+	float:left;
 }

@@ -6,26 +6,44 @@
   <title>Calender</title>
   <link rel="stylesheet" href="calender.css">
   <link rel="stylesheet" href="modal.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <?php 
 	if (isset($_POST["submit"])){
-		$_date = $_REQUEST["date"];
-		$message = $_REQUEST["details"];
+		
 		$conn = mysqli_connect("localhost","francis","rDY6JcAcmyCOEsJQ","my_database");
-		$sql = "INSERT INTO `reminder` (`id`,`date`, `message`, `Task_time`) VALUES (NULL,'".$_date."', '".$message."', NULL)";
-		// Check connection
 		if (!$conn) {
 		  die("Connection failed: " . mysqli_connect_error());
 		}
-		//echo "Connected successfully";
+		//$sql = "INSERT INTO `reminder` (`id`,`date`, `message`) VALUES ('".$_date."', '".$message."'";
+		$sql = "INSERT INTO `reminder` (`date`, `message`) VALUES (?,?)";
+
+		// Check connection
 		
-		if (mysqli_query($conn, $sql)) {
+		//echo "Connected successfully";
+		if($stmt = mysqli_prepare($conn, $sql)){
+            // Bind variables to the prepared statement as parameters
+			mysqli_stmt_bind_param($stmt, "ss", $_date, $message);
+			$_date = $_REQUEST["date"];
+			$message = $_REQUEST["details"];
+			mysqli_stmt_execute($stmt);
+			
+		/*if (mysqli_query($conn, $sql)) {
 		  echo "Insert successful";
 		} else {
 		  echo "Error inserting data: " . mysqli_error($conn);
+		}*/
+		//mysqli_close($conn);
 		}
-		mysqli_close($conn);
-    }
-	
+		else{
+			echo "ERROR: Could not prepare query: $sql. " . mysqli_error($conn);
+		}
+	// Close statement
+	mysqli_stmt_close($stmt);
+	 
+	// Close connection
+	mysqli_close($conn);
+	}
 	$conn = mysqli_connect("localhost","francis","rDY6JcAcmyCOEsJQ","my_database");
 	$sql = "SELECT * FROM reminder";
 	$query = mysqli_query($conn, $sql);
@@ -40,10 +58,12 @@
 			$i++;
 		}
 		echo "</script>";
-		mysqli_close($conn); 
+		
 		} else {
 		  echo "Error selecting data: " . mysqli_error($conn);
+		  mysqli_close($conn); 
 		}
+	
 	
 ?>
 </head>
