@@ -64,7 +64,33 @@
 		  mysqli_close($conn); 
 		}
 	
-	
+	if (isset($_REQUEST["id"])){
+		
+		$conn = mysqli_connect("localhost","francis","rDY6JcAcmyCOEsJQ","my_database");
+		if (!$conn) {
+		  die("Connection failed: " . mysqli_connect_error());
+		}
+		$sql = "DELETE FROM `reminder` WHERE `id` = ?";
+
+		// Check connection
+		
+		//echo "Connected successfully";
+		if($stmt = mysqli_prepare($conn, $sql)){
+            // Bind variables to the prepared statement as parameters
+			mysqli_stmt_bind_param($stmt, "s", $id);
+			$id = $_REQUEST["id"];
+			mysqli_stmt_execute($stmt);
+			
+		}
+		else{
+			echo "ERROR: Could not delete item:" .mysqli_error($conn);
+		}
+	// Close statement
+	mysqli_stmt_close($stmt);
+	 
+	// Close connection
+	mysqli_close($conn);
+	}
 ?>
 </head>
 <body>
