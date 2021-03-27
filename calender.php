@@ -1,12 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-us">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calender</title>
   <link rel="stylesheet" href="calender.css">
   <link rel="stylesheet" href="modal.css">
-  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <?php 
+
+	
+	$conn = mysqli_connect("localhost","francis","rDY6JcAcmyCOEsJQ","my_database");
+	$sql = "SELECT * FROM reminder";
+	$query = mysqli_query($conn, $sql);
+	if ($query) {
+		//echo "Select successful";
+		$i = 0;
+		echo "<script>";
+		echo "var items = [];\n";
+		
+		while ($row = mysqli_fetch_array($query, MYSQLI_BOTH)){
+			echo "items[".$i."]=[".$row["id"].",\"".$row["date"]."\",\"".$row["message"]."\"];\n";
+			$i++;
+		}
+		echo "</script>";
+		
+		} else {
+		  echo "Error selecting data: " . mysqli_error($conn);
+		  mysqli_close($conn); 
+		}
+	
+	
+?>
 </head>
 <body>
 	<div>
@@ -16,7 +42,7 @@
 	<section = class="content">
 		<div class="body">
 			<div class="content-wrapper">
-				<div class="side-bar">
+				<div class="side-bar">Dummy links
 					<a href="#">Add +</a>
 					<a href="#">View all</a>
 				</div>
@@ -41,7 +67,7 @@
 							</select>
 
 
-							<label for="year"></label><select class="form-control col-sm-4" name="year" id="year" onchange="jump()">
+							<label for="year"></label><select class="year-sl" name="year" id="year" onchange="jump()">
 								<option value=1990>1990</option>
 								<option value=1991>1991</option>
 								<option value=1992>1992</option>
@@ -92,15 +118,18 @@
 					</div>
 
 					<div class="action">
-						<button class="btn btn-outline-primary col-sm-6" id="previous" onclick="previous()">Previous</button>
-						<button class="btn btn-outline-primary col-sm-6" id="today" onclick="today()">Today</button>
-						<button class="btn btn-outline-primary col-sm-6" id="next" onclick="next()">Next</button>
+						<button class="btn" id="previous" onclick="previous()">&lt;&lt;Previous</button>
+						<button class="btn" id="today" onclick="today()">Today</button>
+						<button class="btn" id="next" onclick="next()">Next&gt;&gt;</button>
 					</div>
 								
 				</div>
 				
 			</div>
 			<div class="upcomming" id="uc">
+				<h4 id="display-h4">Selected item to view details</h4>
+				<div id="display-div" class="display-div">
+				</div>
 			</div>
 		</div>
 	</section>
@@ -110,12 +139,13 @@
   <!-- Modal content -->
 	<div class="modal-content">
 		<button class="close" id="close">&times;</button>
-		<form action="action.php" method="post" target="_self">	
+		<h3 id="form-h3"></h3>
+		<form action="action.php" method="post">	
 			<input type="hidden" name="date" id="date" value="">
 
-			<label for="details">Enter details:</label><br>
-			<textarea id="details" name="details" rows="10" cols="50" >  </textarea><br>
-			<input type="submit" id="submit" name="submit" value="Save">
+			<label for="details" >Enter details:</label><br>
+			<textarea id="details" name="details" rows="10" cols="50" oninput="validateform()" required></textarea><br>
+			<input type="submit" id="sbmit" name="submit" value="Save" disabled>
 		</form>
     
 	</div>
